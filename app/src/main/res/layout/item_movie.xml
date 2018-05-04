@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="item"
+            type="tiki.com.nowplaying.model.Movie"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivPoster"
+            android:layout_weight="1"
+            tools:src="@mipmap/sample"
+            android:scaleType="centerCrop"
+            android:layout_width="0dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            app:imgUrl="@{item.getPosterPath}"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_marginStart="8dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                tools:text="Avengers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.title}"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvOverview"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:text="@{item.overview}"
+                android:ellipsize="marquee"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -29,7 +29,7 @@ class MainPresenter(val movieService: MovieService, val pageLoader: ApiPageLoade
                             .observeOn(AndroidSchedulers.mainThread())
                             .map { items -> actions.loadFirst(items, pageLoader.hasNextPage()) }
                             .startWith(actions.loadItem(true, true))
-                }
+                }.onErrorReturn { actions.error(it) }
 
         val loadNextPage : Observable<Action> = intent { it.loadNextPageIntent() }
                 .switchMap {
@@ -38,7 +38,7 @@ class MainPresenter(val movieService: MovieService, val pageLoader: ApiPageLoade
                             .observeOn(AndroidSchedulers.mainThread())
                             .map { items -> actions.loadNext(items, pageLoader.hasNextPage()) }
                             .startWith(actions.loadItem(false, true))
-                }
+                }.onErrorReturn { actions.error(it) }
 
         val refresh : Observable<Action> = intent { it.pullToRefreshIntent() }
                 .flatMap {
@@ -47,7 +47,7 @@ class MainPresenter(val movieService: MovieService, val pageLoader: ApiPageLoade
                             .observeOn(AndroidSchedulers.mainThread())
                             .map { items -> actions.loadFirst(items, pageLoader.hasNextPage()) }
                             .startWith(actions.loadItem(true, true))
-                }
+                }.onErrorReturn { actions.error(it) }
 
         val finalObservable : Observable<MainViewState> = Observable.merge(loadFirstPage, loadNextPage, refresh)
                 .map { action ->

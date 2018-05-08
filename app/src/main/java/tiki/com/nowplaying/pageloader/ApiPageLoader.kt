@@ -14,7 +14,8 @@ abstract class ApiPageLoader<T: ListDto<*>>: IPageLoader<Any> {
     private var hasNextPage = true
 
     fun loadPage(page: Int): Observable<List<Any?>> {
-        return loadApiPage(page).subscribeOn(Schedulers.io())
+        return loadApiPage(page)
+                .subscribeOn(Schedulers.io())
 //                .compose<T>({ RxUtils.assertApiWithListSuccess(it) })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { data ->

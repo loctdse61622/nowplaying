@@ -1,4 +1,4 @@
-package tiki.com.nowplaying.application
+package tiki.com.nowplaying.base
 
 import android.app.Activity
 import android.app.Application
@@ -7,22 +7,21 @@ import android.support.multidex.MultiDex
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import org.robolectric.TestLifecycleApplication
 import tiki.com.nowplaying.BuildConfig
-import tiki.com.nowplaying.di.component.AppComponent
-import tiki.com.nowplaying.di.component.DaggerAppComponent
 import tiki.com.nowplaying.di.module.AppModule
 import tiki.com.nowplaying.di.module.NetworkModule
+import java.lang.reflect.Method
 import javax.inject.Inject
 
 /**
- * Created by Admin on 5/4/2018.
+ * Created by Admin on 5/7/2018.
  */
-class MainApplication : Application(), HasActivityInjector {
+class TestApplication : Application(), HasActivityInjector, TestLifecycleApplication {
 
     @Inject
     lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    private val appComponent: AppComponent = DaggerAppComponent.builder().application(this)
+    private val appComponent: TestAppComponent = DaggerTestAppComponent.builder().application(this)
             .appModule(AppModule(this))
             .networkModule(NetworkModule(BuildConfig.BASE_URL))
             .build()
@@ -38,4 +37,22 @@ class MainApplication : Application(), HasActivityInjector {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+    fun getAppComponent(): TestAppComponent {
+        return appComponent
+    }
+
+    override fun beforeTest(method: Method) {
+        getAppComponent()
+    }
+
+    override fun prepareTest(test: Any) {
+        if (test is BaseTest) {
+            getAppComponent().inject(test = test)
+        }
+    }
+
+    override fun afterTest(method: Method) {
+    }
+
 }

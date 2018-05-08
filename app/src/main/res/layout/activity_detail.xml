@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="detail"
+            type="tiki.com.nowplaying.model.Movie"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <com.google.android.youtube.player.YouTubePlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDetailTitle"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                tools:text="The Witcher"
+                android:text="@{detail.title}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDetailReleaseDate"
+                tools:text="Release Date: 18/07/2017"
+                android:text="@{detail.getReleaseDate}"
+                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatRatingBar
+                    android:id="@+id/rtbRatingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:numStars="10"
+                    tools:rating="8"
+                    app:setStars="@{detail.rating}"
+                    android:isIndicator="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvRating"
+                    tools:text="8/10"
+                    android:text="@{detail.getRating}"
+                    android:paddingStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDetailOverview"
+                android:textStyle="italic"
+                android:text="@{detail.overview}"
+                tools:text="Game of the Year Edition 2017. Recommended"
+                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

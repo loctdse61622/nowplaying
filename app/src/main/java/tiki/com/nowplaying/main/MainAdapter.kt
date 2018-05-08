@@ -11,10 +11,19 @@ import tiki.com.nowplaying.model.Movie
 /**
  * Created by Admin on 5/4/2018.
  */
-class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder> () {
-    private var movie : List<Movie> = emptyList()
+class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+    private var movie: List<Movie> = emptyList()
     private var isLoading: Boolean? = false
     private var hasNextPage: Boolean? = false
+    private var listener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onMovieClick(movie: Movie)
+    }
+
+    fun setOnMovieClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
 
     fun setData(data: List<Movie>, isRefresh: Boolean?) {
         this.movie = data
@@ -31,11 +40,12 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder> () {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bind(movie[position])
+        holder?.itemView?.setOnClickListener { listener?.onMovieClick(movie = movie[position]) }
     }
 
     class ViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Movie){
+        fun bind(data: Movie) {
             binding.item = data
             binding.executePendingBindings()
         }

@@ -16,7 +16,7 @@ abstract class MainViewStateReducer : Reducer<MainViewState> {
     @AutoReducer.Action(value = "LOAD_FIRST", generateActionCreator = true)
     fun loadFirst(state: MainViewState, list: List<Any>, hasNextPage: Boolean) =
             state.copy(data = list, hasNextPage = hasNextPage, isLoading = false, isLoadingFirstPage = false,
-                    isRefresh = true)
+                    isRefresh = true, throwable = null)
 
     @AutoReducer.Action(value = "LOAD_ITEM", generateActionCreator = true)
     fun loadItem(state: MainViewState, isFirstPage: Boolean, isLoading: Boolean): MainViewState =
@@ -25,19 +25,17 @@ abstract class MainViewStateReducer : Reducer<MainViewState> {
 
     @AutoReducer.Action(value = "LOAD_NEXT", generateActionCreator = true)
     fun loadNext(state: MainViewState, list: List<Any>, hasNextPage: Boolean): MainViewState {
-//        val oldList = state.data
-//        val newList: List<Any> = ArrayList(oldList.size + list.size)
-//        newList.toMutableList().apply {
-//            addAll(oldList)
-//            addAll(list)
-//        }
         val newList = mutableListOf<Any>()
         newList.addAll(state.data)
         newList.addAll(list)
 
         return state.copy(data = Collections.unmodifiableList(newList), hasNextPage = hasNextPage, isLoading = false,
-                isLoadingNextPage = false, isRefresh = false)
+                isLoadingNextPage = false, isRefresh = false, throwable = null)
     }
+
+    @AutoReducer.Action(value = "LOAD_ERROR", generateActionCreator = true)
+    fun error(state: MainViewState, throwable: Throwable): MainViewState =
+            state.copy(throwable = throwable)
 
     companion object {
         fun create(): MainViewStateReducer = MainViewStateReducerImpl()

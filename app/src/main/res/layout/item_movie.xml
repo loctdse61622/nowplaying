@@ -51,9 +51,11 @@
                 android:textColor="@android:color/black"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
+                android:maxLines="5"
                 android:text="@{item.overview}"
-                android:ellipsize="marquee"/>
+                android:ellipsize="end"
+                />
 
         </LinearLayout>
 
